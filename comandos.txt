@@ -1,0 +1,14 @@
+terraform apply 
+    (aplica as modificacoes na maquina)
+
+terraform destroy
+    mata a maquina que está rodando
+
+ansible-playbook playbook.yml -u ubuntu --private-key CNTLog.pem -i hosts.yml
+    roda novamente o arquivo de playbook para atualizar arquivos na maquina rodando
+
+. venv/bin/activate
+    rodar o virtualenv
+
+python manage.py runserver 0.0.0.0:8000
+    rodar o pyton/django
