@@ -1,50 +1,112 @@
-#Pega informaçoes dos containers
-	docker ps
+# Exibe todas as imagens baixadas
+docker images
 
-#Baixa localmente uma imagem
-	docker pull IMGNAME
+# Exibe detalhes da imagem (importante para pegar o IP da rede também)
+docker inspect IDIMG
 
-#Roda uma imagem (Ja baixada ou não)
-	docker run IMGNAME
-	
-#Roda uma imagem e mantem rodando por 1dia
-	docker run IMGNAME sleep 1d	
+# Exibe o histórico da imagem (todos os comandos para montar a imagem)
+docker history IDIMG
 
-#Roda uma imagem e ja entra direto no bash (porém se sair ele mata a máquina)
-	docker run -it IMGNAME bash
-	
-#Roda uma imagem e a mantém rodando sem travar o terminal
-	docker run -d IMGNAME
-	
-#Roda uma imagem e a mantém rodando sem travar o terminal e expoe as portas altas do container
-	docker run -d -P IMGNAME
-	
-#Roda uma imagem e a mantém rodando sem travar o terminal e expoe as portas definidas no comando
-	docker run -d -p 8080:80 IMGNAME
-	
-#Pega as portas expostas de um container
-	docker port IDCONTAINER
+# Baixa uma imagem localmente
+docker pull IMGNAME
 
-#Para um container
-	docker stop IDCONTAINER
+# Roda uma imagem (já baixada ou não)
+docker run IMGNAME
 
-#Starta novamente um container
-	docker start IDCONTAINER
+# Roda uma imagem e mantém rodando por 1 dia
+docker run IMGNAME sleep 1d
 
-#Entra dentro do container
-	docker exec -it IDCONTAINER bash
-	
-#Remove um container
-	docker rm IDCONTAINER
-	
-#Remove um container forçadamente sem esperar
-	docker rm IDCONTAINER --force
-	
-#Exibe todas as imagens baixadas
-	docker images
-	
-#Exibe detalhes da imagem
-	docker inspect IDIMG
-	
-#Exibe o histórico da imagem (todos os comandos para montar a imagem)
-	docker history IDIMG
+# Roda uma imagem e já entra direto no bash (saindo, a máquina é finalizada)
+docker run -it IMGNAME bash
+
+# Roda uma imagem e mantém rodando sem travar o terminal
+docker run -d IMGNAME
+
+# Roda uma imagem, mantém rodando sem travar o terminal e expõe portas aleatórias do container
+docker run -d -P IMGNAME
+
+# Roda uma imagem, mantém rodando sem travar o terminal e expõe portas específicas
+docker run -d -p 8080:80 IMGNAME
+
+# Pega as portas expostas de um container
+docker port IDCONTAINER
+
+# Para um container específico
+docker stop IDCONTAINER
+
+# Para todos os containers rodando
+docker stop $(docker container ls -q)
+
+# Starta novamente um container parado
+docker start IDCONTAINER
+
+# Entra dentro de um container em execução
+docker exec -it IDCONTAINER bash
+
+# Remove um container
+docker rm IDCONTAINER
+
+# Remove um container forçadamente sem esperar
+docker rm IDCONTAINER --force
+
+# Remove todos os containers (forçado)
+docker container rm $(docker container ls -aq) --force
+
+# Remove todas as imagens do Docker (forçado)
+docker rmi $(docker image ls -aq) --force
+
+# Builda uma nova imagem Docker
+docker build -t vleonardo/IMGNAME:VERSION .
+
+# Troca a tag de uma imagem
+docker tag vleonardo/app-node:1.4 vinileonardo/app-node:1.4
+
+# Sobe uma imagem no Docker Hub
+docker push CONTA/IMGNAME:VERSAO
+
+# Cria persistência de arquivos entre o container e a máquina host (bind mount)
+# Por exemplo, se um arquivo dentro de /app for criado, o mesmo arquivo será criado na pasta /volume-docker e vice-versa
+docker run -it -v /home/vini/projetos/estudos/docker/app-exemplo/volume-docker:/app ubuntu bash
+
+# Montagem mais atualizada (bind mount)
+docker run -it --mount type=bind,source=/home/vini/projetos/estudos/docker/app-exemplo/volume-docker,target=/app ubuntu bash
+
+# Verifica os volumes criados
+docker volume ls
+
+# Cria um volume
+docker volume create meu-volume
+
+# Local onde o volume fica armazenado:
+# sudo su
+# cd /var/lib/docker/volumes/meu-volume/_data
+
+# Montagem com volume criado ao invés de pasta local
+docker run -it --mount source=meu-volume,target=/app ubuntu bash
+
+# Verifica as redes dos containers
+docker network ls
+
+# Cria uma rede bridge
+docker network create --driver bridge NOMENETWORK
+
+# Dá um nome ao container
+docker run -it --name NOMEIMG ubuntu bash
+
+# Dá um nome ao container e escolhe a rede
+docker run -it --name NOMEIMG --network NOMENETWORK ubuntu bash
+
+# Roda Docker Compose, exibe os logs e trava o terminal
+docker-compose up
+
+# Roda Docker Compose e deixa o terminal livre
+docker-compose up -d
+
+# Para e remove os containers gerenciados pelo Docker Compose
+docker-compose down
+
+# Pega informações dos containers em execução
+docker ps
+
+# Pega informações de todos os containers (inclusive os parados)
+docker ps -a
