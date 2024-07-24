@@ -1,0 +1,50 @@
+#Pega informaçoes dos containers
+	docker ps
+
+#Baixa localmente uma imagem
+	docker pull IMGNAME
+
+#Roda uma imagem (Ja baixada ou não)
+	docker run IMGNAME
+	
+#Roda uma imagem e mantem rodando por 1dia
+	docker run IMGNAME sleep 1d	
+
+#Roda uma imagem e ja entra direto no bash (porém se sair ele mata a máquina)
+	docker run -it IMGNAME bash
+	
+#Roda uma imagem e a mantém rodando sem travar o terminal
+	docker run -d IMGNAME
+	
+#Roda uma imagem e a mantém rodando sem travar o terminal e expoe as portas altas do container
+	docker run -d -P IMGNAME
+	
+#Roda uma imagem e a mantém rodando sem travar o terminal e expoe as portas definidas no comando
+	docker run -d -p 8080:80 IMGNAME
+	
+#Pega as portas expostas de um container
+	docker port IDCONTAINER
+
+#Para um container
+	docker stop IDCONTAINER
+
+#Starta novamente um container
+	docker start IDCONTAINER
+
+#Entra dentro do container
+	docker exec -it IDCONTAINER bash
+	
+#Remove um container
+	docker rm IDCONTAINER
+	
+#Remove um container forçadamente sem esperar
+	docker rm IDCONTAINER --force
+	
+#Exibe todas as imagens baixadas
+	docker images
+	
+#Exibe detalhes da imagem
+	docker inspect IDIMG
+	
+#Exibe o histórico da imagem (todos os comandos para montar a imagem)
+	docker history IDIMG
