@@ -17,8 +17,8 @@ provider "aws" {
 resource "aws_instance" "app_server" {
   ami = "ami-03d5c68bab01f3496"
   instance_type = "t2.micro"
-  key_name = "CNTLog"
-  vpc_security_group_ids = ["sg-2f5d6b57"]
+  key_name = "" #ADICIONAR A CHAVE PEM
+  vpc_security_group_ids = [""] ADICIONAR O SECURITY GROUP
   #user_data = <<-EOF
   #                  #!/bin/bash
   #                  cd /home/ubuntu
@@ -26,7 +26,7 @@ resource "aws_instance" "app_server" {
   #                  nohup busybox httpd -f -p 8080 &
   #              EOF
   tags = {
-    Name = "thorpe_3"
+    Name = "" #ADICIONAR NOME DA MAQUINA
   }
 }
 
