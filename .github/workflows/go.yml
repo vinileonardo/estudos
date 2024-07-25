@@ -10,7 +10,6 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
     steps:
@@ -19,7 +18,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
-        go-version: '1.18'    
+        go-version: '1.18'
 
     - name: Build-DB
       run: docker-compose -f ci_pipeline_githubactions/docker-compose.yml build
@@ -27,8 +26,13 @@ jobs:
     - name: Create-DB
       run: docker-compose -f ci_pipeline_githubactions/docker-compose.yml up -d
 
+    - name: Go Mod Init
+      working-directory: ./ci_pipeline_githubactions
+      run: go mod tidy
+
     - name: Test
-      run: go test -v ./ci_pipeline_githubactions/main_test.go
+      working-directory: ./ci_pipeline_githubactions
+      run: go test -v main_test.go
 
   build:
     needs: test
@@ -42,4 +46,5 @@ jobs:
         go-version: '1.18'
 
     - name: Build
-      run: go build -v ./ci_pipeline_githubactions/main.go
+      working-directory: ./ci_pipeline_githubactions
+      run: go build -v main.go
