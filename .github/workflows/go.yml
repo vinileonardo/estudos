@@ -22,13 +22,13 @@ jobs:
         go-version: '1.18'    
 
     - name: Build-DB
-      run: docker-compose -f estudos/ci_pipeline_githubactions/docker-compose.yml build
+      run: docker-compose -f ci_pipeline_githubactions/docker-compose.yml build
 
     - name: Create-DB
-      run: docker-compose -f estudos/ci_pipeline_githubactions/docker-compose.yml up -d
+      run: docker-compose -f ci_pipeline_githubactions/docker-compose.yml up -d
 
     - name: Test
-      run: go test -v ./estudos/ci_pipeline_githubactions/main_test.go
+      run: go test -v ./ci_pipeline_githubactions/main_test.go
 
   build:
     needs: test
@@ -42,4 +42,4 @@ jobs:
         go-version: '1.18'
 
     - name: Build
-      run: go build -v ./estudos/ci_pipeline_githubactions/main.go
+      run: go build -v ./ci_pipeline_githubactions/main.go
